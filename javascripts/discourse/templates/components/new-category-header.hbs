@@ -1,0 +1,98 @@
+{{#if this.category}}
+  <div class="category-banner-wrapper">
+    <div class="banner-content">
+      <img
+        class="category-logo"
+        src={{this.category.uploaded_logo.url}}
+        alt="{{this.category.name}} Icon"
+      />
+      <div class="category-info">
+        <div class="breadcrumbs">
+          <a href="https://anaconda.cloud/" target="_blank">Anaconda Nucleus</a>
+          <span class="divider">/</span>
+          <a href="/">Community</a>
+          {{#if this.parentCategory}}
+            <span class="divider">/</span>
+            <div
+              id="category-dropdown-wrapper"
+              class="breadcrumb-dropdown-menu"
+              {{on "click" this.showDropdown}}
+              {{on "mouseleave" this.hideDropdown}}
+            >
+              {{#if this.parentCategory.uploaded_logo}}
+                <img
+                  class="category-logo top-logo"
+                  src={{this.parentCategory.uploaded_logo.url}}
+                  alt="{{this.parentCategory.name}} Icon"
+                />
+              {{/if}}
+              <span>{{this.parentCategory.name}}</span>
+              {{d-icon "caret-down"}}
+
+              <ul class="category-dropdown">
+                {{#each this.parentCategorySiblings as |cat|}}
+                  <li
+                    class="dropdown-item
+                      {{if (eq cat.id this.category.id) 'selected'}}"
+                  >
+                    <a href="/c/{{cat.slug}}/{{cat.id}}">
+                      {{#if cat.uploaded_logo}}
+                        <img
+                          class="category-logo"
+                          src="{{cat.uploaded_logo.url}}"
+                          alt="{{cat.name}} Icon"
+                        />
+                      {{/if}}
+                      <span class="name">{{cat.name}}</span>
+                    </a>
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+          {{/if}}
+          {{#if this.subcategory}}
+            <span class="divider">/</span>
+            <div
+              id="subcategory-dropdown-wrapper"
+              class="breadcrumb-dropdown-menu"
+              {{on "click" this.showDropdown}}
+              {{on "mouseleave" this.hideDropdown}}
+            >
+              <span>{{this.subcategory.name}}</span>
+              {{d-icon "caret-down"}}
+              <ul class="category-dropdown">
+                {{#each this.subcategorySiblings as |sub|}}
+                  <li
+                    class="dropdown-item
+                      {{if (eq sub.id this.category.id) 'selected'}}"
+                  >
+                    <a
+                      href="/c/{{this.parentCategory.slug}}/{{sub.slug}}/{{sub.id}}"
+                    >
+                      {{#if sub.uploaded_logo}}
+                        <img
+                          class="category-logo"
+                          src="{{sub.uploaded_logo.url}}"
+                          alt="{{sub.name}} Icon"
+                        />
+                      {{/if}}
+                      <span class="name">{{sub.name}}</span>
+                    </a>
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+          {{/if}}
+        </div>
+        <!-- html-safe must be used for inline styles to avoid deprecation warnings -->
+        <h1
+          class="category-title"
+          style={{html-safe (concat "color: #" this.category.color ";")}}
+        >
+          {{this.category.name}}</h1>
+        <p class="category-description">{{this.category.description_text}}
+        </p>
+      </div>
+    </div>
+  </div>
+{{/if}}
